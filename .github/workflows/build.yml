@@ -41,6 +41,19 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Inject Telegram API credentials
+        env:
+          TG_APP_ID: ${{ secrets.TG_APP_ID }}
+          TG_APP_HASH: ${{ secrets.TG_APP_HASH }}
+        run: |
+          BV=TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java
+          if [ -n "$TG_APP_ID" ] && [ -n "$TG_APP_HASH" ]; then
+            sed -i "s/public static int APP_ID = [0-9]*;/public static int APP_ID = ${TG_APP_ID};/" "$BV"
+            sed -i "s/public static String APP_HASH = \"[0-9a-f]*\";/public static String APP_HASH = \"${TG_APP_HASH}\";/" "$BV"
+          else
+            echo "::warning::TG_APP_ID or TG_APP_HASH secret is missing, the upstream api_id is used and may be flood-blocked"
+          fi
+
       - name: Build afat debug APK
         run: ./gradlew :TMessagesProj_App:assembleAfatDebug --stacktrace
 
