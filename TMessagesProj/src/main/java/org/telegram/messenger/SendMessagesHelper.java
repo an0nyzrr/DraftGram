@@ -64,6 +64,7 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.utils.settings.DraftgramSettings;
 import org.telegram.tgnet.tl.TL_account;
 import org.telegram.tgnet.tl.TL_keyboard;
 import org.telegram.tgnet.tl.TL_ephemeral;
@@ -2720,7 +2721,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
 
                     final TLRPC.TL_messages_forwardMessages req = new TLRPC.TL_messages_forwardMessages();
                     req.to_peer = inputPeer;
-                    req.silent = !notify || MessagesController.getNotificationsSettings(currentAccount).getBoolean("silent_" + peer, false);
+                    req.drop_author = DraftgramSettings.ghostHideForwardName.get();
+                    req.silent =!notify || MessagesController.getNotificationsSettings(currentAccount).getBoolean("silent_" + peer, false);
                     if (replyToTopMsg != null) {
                         req.top_msg_id = replyToTopMsg.getId();
                         req.flags |= 512;
@@ -6479,6 +6481,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             } else if (type == 4) {
                 TLRPC.TL_messages_forwardMessages reqSend = new TLRPC.TL_messages_forwardMessages();
                 reqSend.to_peer = sendToPeer;
+                reqSend.drop_author = DraftgramSettings.ghostHideForwardName.get();
                 reqSend.with_my_score = retryMessageObject.messageOwner.with_my_score;
                 if (replyToTopMsg != null) {
                     reqSend.top_msg_id = replyToTopMsg.getId();

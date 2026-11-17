@@ -111,6 +111,7 @@ import org.telegram.messenger.BotInlineKeyboard;
 import org.telegram.messenger.ChatMessageSharedResources;
 import org.telegram.messenger.ChatObject;
 import org.telegram.utils.code.highlight.CodeHighlighting;
+import org.telegram.utils.settings.DraftgramSettings;
 import org.telegram.utils.twidget.WidgetSandboxTheme;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
@@ -15987,7 +15988,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 viaWidth = (int) Math.ceil(Theme.chat_replyNamePaint.measureText(viaString, 0, viaString.length()));
                 currentViaBotUser = botUser;
             }
-        } else if (messageObject.messageOwner.via_bot_id != 0) {
+        } else if (messageObject.messageOwner.via_bot_id != 0 && !DraftgramSettings.ghostHideVia.get()) {
             final TLRPC.User botUser = MessagesController.getInstance(currentAccount).getUser(messageObject.messageOwner.via_bot_id);
             final String botUsername = UserObject.getPublicUsername(botUser);
             if (botUser != null && !TextUtils.isEmpty(botUsername)) {
