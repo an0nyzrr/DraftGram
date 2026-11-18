@@ -4780,11 +4780,21 @@ public class LocaleController {
     }
 
     @Nullable
+    // Brand strings must come from the local resources: cloud language packs carry the upstream "Telegram" texts.
+    private static boolean isBrandString(String key, @StringRes int stringRes) {
+        return stringRes == R.string.AppName
+            || stringRes == R.string.AppNameBeta
+            || stringRes == R.string.Page1Title
+            || stringRes == R.string.Page1Message
+            || "AppName".equals(key) || "AppNameBeta".equals(key)
+            || "Page1Title".equals(key) || "Page1Message".equals(key);
+    }
+
     private String getStringV2(String key, @StringRes int stringRes, String fallback) {
         final Context context = ApplicationLoader.applicationContext;
         String value;
 
-        if (BuildVars.USE_CLOUD_STRINGS) {
+        if (BuildVars.USE_CLOUD_STRINGS && !isBrandString(key, stringRes)) {
             value = localizationExternal.getByResNameOrResId(context, key, stringRes);
             if (value != null) {
                 return value;
