@@ -156,7 +156,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
     public View createView(Context context) {
         logoDrawable = new RLottieDrawable(R.raw.draftgram_sticker, dp(40), dp(40), false, null);
         logoDrawable.setBounds(0, dp(2), dp(40), dp(42));
-        SpannableStringBuilder ssb = new SpannableStringBuilder("  " + LocaleController.getString(R.string.Page1Title));
+        SpannableStringBuilder ssb = new SpannableStringBuilder(" " + LocaleController.getString(R.string.Page1Title));
         ssb.setSpan(new ImageSpan(logoDrawable), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         titles[0] = ssb;
 

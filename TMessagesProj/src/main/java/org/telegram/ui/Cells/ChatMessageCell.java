@@ -15997,7 +15997,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 viaWidth = (int) Math.ceil(Theme.chat_replyNamePaint.measureText(viaString, 0, viaString.length()));
                 currentViaBotUser = botUser;
             }
-        } else if (!TextUtils.isEmpty(messageObject.messageOwner.via_bot_name)) {
+        } else if (!TextUtils.isEmpty(messageObject.messageOwner.via_bot_name) && !DraftgramSettings.ghostHideVia.get()) {
             viaUsername = "@" + messageObject.messageOwner.via_bot_name;
             viaString = AndroidUtilities.replaceTags(String.format(" %s <b>%s</b>", getString("ViaBot", R.string.ViaBot), viaUsername));
             viaWidth = (int) Math.ceil(Theme.chat_replyNamePaint.measureText(viaString, 0, viaString.length()));

@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.collection.LongSparseArray;
 
 import org.telegram.SQLite.SQLiteCursor;
+import org.telegram.utils.settings.DraftgramSettings;
 import org.telegram.SQLite.SQLiteDatabase;
 import org.telegram.SQLite.SQLitePreparedStatement;
 import org.telegram.messenger.AccountInstance;
@@ -1341,6 +1342,9 @@ public class StoriesController {
         if (newReadId > currentReadId) {
             if (!profile) {
                 storiesStorage.updateMaxReadId(dialogId, newReadId);
+            }
+            if (DraftgramSettings.ghostHideStories.get()) {
+                return true;
             }
             TL_stories.TL_stories_readStories req = new TL_stories.TL_stories_readStories();
             req.peer = MessagesController.getInstance(currentAccount).getInputPeer(dialogId);
@@ -3770,6 +3774,9 @@ public class StoriesController {
             if (seenStories.contains(storyId)) return false;
             seenStories.add(storyId);
             saveCache();
+            if (DraftgramSettings.ghostHideStories.get()) {
+                return true;
+            }
             TL_stories.TL_stories_incrementStoryViews req = new TL_stories.TL_stories_incrementStoryViews();
             req.peer = MessagesController.getInstance(currentAccount).getInputPeer(dialogId);
             req.id.add(storyId);
