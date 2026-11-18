@@ -19,6 +19,7 @@ import androidx.credentials.exceptions.CreateCredentialNoCreateOptionException;
 import androidx.credentials.exceptions.GetCredentialCancellationException;
 import androidx.credentials.exceptions.GetCredentialException;
 import androidx.credentials.exceptions.GetCredentialInterruptedException;
+import androidx.credentials.exceptions.GetCredentialProviderConfigurationException;
 import androidx.credentials.exceptions.NoCredentialException;
 
 import org.json.JSONObject;
@@ -251,7 +252,8 @@ public class PasskeysController {
 
                     @Override
                     public void onError(@NonNull GetCredentialException err2) {
-                        if (err2 instanceof NoCredentialException) {
+                        if (err2 instanceof NoCredentialException || err2 instanceof GetCredentialProviderConfigurationException) {
+                            // No passkey provider on this device (no Google Play services, e.g. Huawei or a stripped ROM): skip passkeys silently.
                             done.run(0L, null, "EMPTY");
                         } else if (err2 instanceof GetCredentialCancellationException) {
                             done.run(0L, null, "CANCELLED");
