@@ -14,6 +14,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.R;
 import org.telegram.messenger.browser.Browser;
+import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.IconBackgroundColors;
 import org.telegram.ui.Components.RecyclerListView;
@@ -122,6 +123,7 @@ public class DraftgramSettingsActivity extends UniversalFragment {
 
     @Override
     protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
+        items.add(UItem.asSpace(ActionBar.getCurrentActionBarHeight()));
         switch (section) {
             case SECTION_MAIN: fillMain(items); break;
             case SECTION_UI: fillUi(items); break;
