@@ -3943,6 +3943,8 @@ public class MessageObject {
         }
     }
 
+    public boolean dgDeleted;
+
     public void applyNewText() {
         translated = false;
         summarized = false;

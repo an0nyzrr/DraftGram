@@ -11680,4 +11680,5 @@ Ghost Mode and message saving.</string>
     <string name="FpnvConsentSimSlot">SIM Slot</string>
     <string name="FpnvConsentSimSlotValue">SIM %1$d</string>
     <string name="FpnvConsentPhoneNumber">Phone Number</string>
+    <string name="DraftgramDeletedMark">Deleted</string>
 </resources>

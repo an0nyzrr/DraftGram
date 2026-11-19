@@ -235,6 +235,7 @@ import org.telegram.ui.ActionBar.MessageDrawable;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.SimpleActionBarMenuOverlay;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.utils.settings.DraftgramSettings;
 import org.telegram.ui.ActionBar.ThemeBind;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.ActionBar.theme.ThemeKey;
@@ -23141,7 +23142,29 @@ public class ChatActivity extends BaseFragment implements
                 scheduleNowDialog.dismiss();
                 scheduleNowDialog = null;
             }
-            processDeletedMessages(markAsDeletedMessages, channelId, sent, !movedToScheduled);
+            ArrayList<Integer> deletedToRemove = markAsDeletedMessages;
+            if (!movedToScheduled && DraftgramSettings.keepDeleted.get()) {
+                deletedToRemove = new ArrayList<>();
+                boolean markedTrash = false;
+                for (int msg_id : markAsDeletedMessages) {
+                    MessageObject kept = messagesDict[0].get(msg_id);
+                    if (kept != null && kept.messageOwner != null && !kept.dgDeleted) {
+                        kept.dgDeleted = true;
+                        String original = kept.messageOwner.message == null ? "" : kept.messageOwner.message;
+                        String mark = getString(R.string.DraftgramDeletedMark);
+                        kept.applyNewText("\uD83D\uDDD1 " + mark + (original.isEmpty() ? "" : ": " + original));
+                        markedTrash = true;
+                    } else {
+                        deletedToRemove.add(msg_id);
+                    }
+                }
+                if (markedTrash) {
+                    updateVisibleRows();
+                }
+            }
+            if (!deletedToRemove.isEmpty()) {
+                processDeletedMessages(deletedToRemove, channelId, sent, !movedToScheduled);
+            }
             if (movedToScheduled && chatMode != ChatActivity.MODE_SCHEDULED) {
                 getMessagesController().forceNoReload(dialog_id, ChatActivity.MODE_SCHEDULED);
                 openScheduledMessages(scheduledMessageId, true);

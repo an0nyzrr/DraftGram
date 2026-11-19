@@ -2,10 +2,8 @@
 package org.telegram.ui;
 
 import android.content.Context;
-import android.graphics.Outline;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -199,16 +197,9 @@ public class DraftgramSettingsActivity extends UniversalFragment {
         layout.setPadding(AndroidUtilities.dp(16), AndroidUtilities.dp(24), AndroidUtilities.dp(16), AndroidUtilities.dp(16));
 
         ImageView logo = new ImageView(context);
-        logo.setImageResource(R.mipmap.ic_launcher);
-        logo.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        logo.setOutlineProvider(new ViewOutlineProvider() {
-            @Override
-            public void getOutline(View view, Outline outline) {
-                outline.setOval(0, 0, view.getWidth(), view.getHeight());
-            }
-        });
-        logo.setClipToOutline(true);
-        layout.addView(logo, new LinearLayout.LayoutParams(AndroidUtilities.dp(88), AndroidUtilities.dp(88)));
+        logo.setImageResource(Theme.isCurrentThemeDark() ? R.drawable.dg_logo_light : R.drawable.dg_logo_dark);
+        logo.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        layout.addView(logo, new LinearLayout.LayoutParams(AndroidUtilities.dp(96), AndroidUtilities.dp(96)));
 
         TextView title = new TextView(context);
         title.setText("Draftgram");
