@@ -26,7 +26,7 @@ public class ThemeColors {
         defaultColors[key_dialogTextBlack] = DEFAULT_BLACK_TEXT;
         defaultColors[key_dialogTextLink] = 0xff2678b6;
         defaultColors[key_dialogLinkSelection] = 0x3362a9e3;
-        defaultColors[key_dialogTextBlue] = 0xff2f8cc9;
+        defaultColors[key_dialogTextBlue] = 0xff0061a4;
         defaultColors[key_dialogTextBlue2] = 0xff3a95d5;
         defaultColors[key_dialogTextBlue4] = 0xff19a7e8;
         defaultColors[key_dialogTextGray] = 0xff348bc1;
@@ -76,7 +76,7 @@ public class ThemeColors {
         defaultColors[key_share_linkText] = 0xFF222222;
         defaultColors[key_share_linkBackground] = 0x0F000000;
 
-        defaultColors[key_windowBackgroundWhite] = 0xffffffff;
+        defaultColors[key_windowBackgroundWhite] = 0xfffdfcff;
         defaultColors[key_windowBackgroundUnchecked] = 0xff96A2AD;
         defaultColors[key_windowBackgroundChecked] = 0xff229AF0;
         defaultColors[key_windowBackgroundCheckText] = 0xffffffff;
@@ -189,7 +189,7 @@ public class ThemeColors {
         defaultColors[key_avatar_nameInMessageBlue] = 0xff368AD1;
         defaultColors[key_avatar_nameInMessagePink] = 0xffC7508B;
 
-        defaultColors[key_actionBarDefault] = 0xffffffff;
+        defaultColors[key_actionBarDefault] = 0xfffdfcff;
         defaultColors[key_actionBarDefaultIcon] = DEFAULT_BLACK_TEXT;
         defaultColors[key_actionBarActionModeDefault] = 0xffffffff;
         defaultColors[key_actionBarActionModeDefaultTop] = 0x10000000;
@@ -347,7 +347,7 @@ public class ThemeColors {
         defaultColors[key_chat_compact_reactionText] = 0xFF1A1D21;
         defaultColors[key_chat_compact_reactionBackgroundSelected] = 0xFF1A1D21;
         defaultColors[key_chat_compact_reactionTextSelected] = 0xFFFFFFFF;
-        defaultColors[key_chat_outBubble] = 0xffefffde;
+        defaultColors[key_chat_outBubble] = 0xffd1e4ff;
         defaultColors[key_chat_outBubbleGradientSelectedOverlay] = 0x14000000;
         defaultColors[key_chat_outBubbleSelected] = 0xffd9f7c5;
         defaultColors[key_chat_outBubbleShadow] = 0xff1e750c;
