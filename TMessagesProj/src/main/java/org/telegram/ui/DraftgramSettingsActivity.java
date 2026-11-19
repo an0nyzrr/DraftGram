@@ -11,11 +11,14 @@ import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.R;
+import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.browser.Browser;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.DraftgramAccountCard;
+import org.telegram.ui.Components.DraftgramShapes;
 import org.telegram.ui.Components.IconBackgroundColors;
-import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalFragment;
@@ -56,6 +59,8 @@ public class DraftgramSettingsActivity extends UniversalFragment {
     private static final int ID_KEEP_BOTS_CHANNELS = 302;
 
     private static final int ID_LIQUID_GLASS = 400;
+    private static final int ID_AVATAR_SHAPE = 410;
+    private static final int ID_ACCENT = 411;
 
     private static final int ID_SHOW_USER_ID = 500;
     private static final int ID_SHOW_DATA_CENTER = 501;
@@ -115,11 +120,6 @@ public class DraftgramSettingsActivity extends UniversalFragment {
     }
 
     @Override
-    protected RecyclerListView getListViewForSimpleGlass() {
-        return listView;
-    }
-
-    @Override
     protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
         items.add(UItem.asSpace(ActionBar.getCurrentActionBarHeight()));
         switch (section) {
@@ -132,6 +132,11 @@ public class DraftgramSettingsActivity extends UniversalFragment {
     }
 
     private void fillRoot(ArrayList<UItem> items) {
+        items.add(UItem.asHeader("С Premium"));
+        items.add(UItem.asCustom(buildAccountCard(true)));
+        items.add(UItem.asHeader("Без Premium"));
+        items.add(UItem.asCustom(buildAccountCard(false)));
+
         if (headerView == null) {
             headerView = buildHeader(getContext());
         }
@@ -139,7 +144,7 @@ public class DraftgramSettingsActivity extends UniversalFragment {
 
         items.add(UItem.asHeader("Категории"));
         items.add(SettingsActivity.SettingCell.Factory.of(ID_CAT_MAIN, IconBackgroundColors.BLUE.top, IconBackgroundColors.BLUE.bottom, R.drawable.settings_power, "Основные", "Прокси и Ghost Mode"));
-        items.add(SettingsActivity.SettingCell.Factory.of(ID_CAT_UI, IconBackgroundColors.ORANGE.top, IconBackgroundColors.ORANGE.bottom, R.drawable.settings_features, "Оформление", "Liquid Glass и стиль"));
+        items.add(SettingsActivity.SettingCell.Factory.of(ID_CAT_UI, IconBackgroundColors.ORANGE.top, IconBackgroundColors.ORANGE.bottom, R.drawable.settings_features, "Оформление", "Аватарка, акцент, Liquid Glass"));
         items.add(SettingsActivity.SettingCell.Factory.of(ID_CAT_CHATS, IconBackgroundColors.GREEN.top, IconBackgroundColors.GREEN.bottom, R.drawable.settings_chat, "Чаты", "Сохранение удалённых и изменённых"));
         items.add(SettingsActivity.SettingCell.Factory.of(ID_CAT_OTHER, 0xFF7C5CFA, 0xFF5B3FE0, R.drawable.settings_data, "Другое", "Профиль и о приложении"));
         items.add(UItem.asShadow(null));
@@ -148,6 +153,34 @@ public class DraftgramSettingsActivity extends UniversalFragment {
         items.add(SettingsActivity.SettingCell.Factory.of(ID_LINK_SOURCE, IconBackgroundColors.GREEN.top, IconBackgroundColors.GREEN.bottom, R.drawable.settings_faq, "Исходный код", "github.com/an0nyzrr/DraftGram"));
         items.add(SettingsActivity.SettingCell.Factory.of(ID_LINK_CREATOR, IconBackgroundColors.BLUE.top, IconBackgroundColors.BLUE.bottom, R.drawable.settings_ask, "Создатель", "@xedazu"));
         items.add(UItem.asShadow(null));
+    }
+
+    private View buildAccountCard(boolean premium) {
+        TLRPC.User user = UserConfig.getInstance(currentAccount).getCurrentUser();
+        if (user == null) {
+            TextView empty = new TextView(getContext());
+            empty.setText("Войдите в аккаунт, чтобы увидеть превью");
+            empty.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
+            empty.setPadding(AndroidUtilities.dp(16), AndroidUtilities.dp(12), AndroidUtilities.dp(16), AndroidUtilities.dp(12));
+            return empty;
+        }
+        return new DraftgramAccountCard(getContext(), currentAccount, user, premium, accentColor(), avatarShape());
+    }
+
+    private int avatarShape() {
+        return clamp(DraftgramSettings.avatarShape.get(), DraftgramShapes.shapeCount());
+    }
+
+    private int accentIndex() {
+        return clamp(DraftgramSettings.accent.get(), DraftgramShapes.accentCount());
+    }
+
+    private int accentColor() {
+        return DraftgramShapes.ACCENT_COLORS[accentIndex()];
+    }
+
+    private static int clamp(int value, int count) {
+        return value >= 0 && value < count ? value : 0;
     }
 
     private void fillMain(ArrayList<UItem> items) {
@@ -166,6 +199,11 @@ public class DraftgramSettingsActivity extends UniversalFragment {
     }
 
     private void fillUi(ArrayList<UItem> items) {
+        items.add(UItem.asHeader("Аккаунт"));
+        items.add(UItem.asButton(ID_AVATAR_SHAPE, "Фигура аватарки", DraftgramShapes.SHAPE_NAMES[avatarShape()]));
+        items.add(UItem.asButton(ID_ACCENT, "Акцентный цвет", DraftgramShapes.ACCENT_NAMES[accentIndex()]));
+        items.add(UItem.asShadow("Фигура пока применяется к превью аккаунта. Во всех аватарках клиента и акцент на фон — следующие шаги."));
+
         items.add(UItem.asHeader("Интерфейс"));
         items.add(UItem.asCheck(ID_LIQUID_GLASS, "Liquid Glass").setChecked(DraftgramSettings.liquidGlass.get()));
         items.add(UItem.asShadow("Основной стиль — Material 3 Expressive. Liquid Glass включается вместо него. Применение темы — отдельный шаг."));
@@ -235,6 +273,16 @@ public class DraftgramSettingsActivity extends UniversalFragment {
         }
         if (item.id == ID_LINK_CREATOR || item.id == ID_ABOUT_CREATOR) {
             Browser.openUrl(getContext(), CREATOR_URL);
+            return;
+        }
+        if (item.id == ID_AVATAR_SHAPE) {
+            DraftgramSettings.avatarShape.set((avatarShape() + 1) % DraftgramShapes.shapeCount());
+            listView.adapter.update(true);
+            return;
+        }
+        if (item.id == ID_ACCENT) {
+            DraftgramSettings.accent.set((accentIndex() + 1) % DraftgramShapes.accentCount());
+            listView.adapter.update(true);
             return;
         }
 

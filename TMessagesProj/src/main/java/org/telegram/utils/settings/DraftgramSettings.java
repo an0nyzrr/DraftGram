@@ -26,6 +26,10 @@ public final class DraftgramSettings {
     public static final BooleanSetting showUserId = BooleanSetting.of("dg_show_user_id", false);
     public static final BooleanSetting showDataCenter = BooleanSetting.of("dg_show_data_center", false);
 
+    // Внешний вид аккаунта: фигура аватарки и акцентный цвет (индексы в DraftgramShapes)
+    public static final IntSetting avatarShape = IntSetting.of("dg_avatar_shape", 0);
+    public static final IntSetting accent = IntSetting.of("dg_accent", 0);
+
     private DraftgramSettings() {
     }
 }
