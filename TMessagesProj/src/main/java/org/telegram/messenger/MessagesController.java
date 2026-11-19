@@ -9383,7 +9383,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 getMessagesStorage().markMessagesAsDeleted(dialogId, messages, true, false, ChatActivity.MODE_QUICK_REPLIES, topicId);
             } else if (welcomeMessages) {
                 getMessagesStorage().markMessagesAsDeleted(dialogId, messages, true, false, ChatActivity.MODE_WELCOME_MESSAGES, topicId);
-            } else {
+            } else if (!DraftgramSettings.keepDeleted.get()) {
                 if (channelId == 0) {
                     for (int a = 0; a < messages.size(); a++) {
                         Integer id = messages.get(a);
@@ -17665,8 +17665,10 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
             });
             getMessagesStorage().deletePushMessages(dialogId, ids);
-            ArrayList<Long> dialogIds = getMessagesStorage().markMessagesAsDeleted(dialogId, ids, false, true, 0, 0);
-            getMessagesStorage().updateDialogsWithDeletedMessages(dialogId, channelId, ids, dialogIds);
+            if (!DraftgramSettings.keepDeleted.get()) {
+                ArrayList<Long> dialogIds = getMessagesStorage().markMessagesAsDeleted(dialogId, ids, false, true, 0, 0);
+                getMessagesStorage().updateDialogsWithDeletedMessages(dialogId, channelId, ids, dialogIds);
+            }
         });
     }
 
@@ -21328,7 +21330,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 getMessagesStorage().markMessagesContentAsRead(key, arrayList, currentTime2, markContentAsReadMessagesDate);
             }
         }
-        if (deletedMessages != null) {
+        if (deletedMessages != null && !DraftgramSettings.keepDeleted.get()) {
             for (int a = 0, size = deletedMessages.size(); a < size; a++) {
                 long key = deletedMessages.keyAt(a);
                 ArrayList<Integer> arrayList = deletedMessages.valueAt(a);
@@ -21356,7 +21358,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 getMessagesStorage().markMessagesAsDeleted(key, arrayList, true, false, ChatActivity.MODE_SCHEDULED, 0);
             }
         }
-        if (clearHistoryMessages != null) {
+        if (clearHistoryMessages != null && !DraftgramSettings.keepDeleted.get()) {
             for (int a = 0, size = clearHistoryMessages.size(); a < size; a++) {
                 long key = clearHistoryMessages.keyAt(a);
                 int id = clearHistoryMessages.valueAt(a);
