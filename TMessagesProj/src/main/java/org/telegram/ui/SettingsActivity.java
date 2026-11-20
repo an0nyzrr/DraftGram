@@ -722,7 +722,13 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             return;
         }
 
-        items.add(UItem.asCustomShadow(topView, 200 - 12));
+        View accountCard = buildDraftgramAccountEntry();
+        if (accountCard != null) {
+            items.add(UItem.asCustom(accountCard));
+            items.add(UItem.asShadow(null));
+        } else {
+            items.add(UItem.asCustomShadow(topView, 200 - 12));
+        }
 
         accountNumbers.clear();
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
@@ -796,12 +802,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             items.add(UItem.asShadow(null));
         }
 
-        View accountEntry = buildDraftgramAccountEntry();
-        if (accountEntry != null) {
-            items.add(UItem.asCustom(accountEntry));
-        } else {
-            items.add(SettingCell.Factory.of(28, 0xFF7C5CFA, 0xFF5B3FE0, R.drawable.settings_gram_24, "Настройки Draftgram"));
-        }
+        items.add(SettingCell.Factory.of(28, 0xFF7C5CFA, 0xFF5B3FE0, R.drawable.settings_gram_24, "Настройки Draftgram"));
         items.add(UItem.asShadow(null));
         items.add(SettingCell.Factory.of(1, IconBackgroundColors.BLUE.top, IconBackgroundColors.BLUE.bottom, R.drawable.settings_account, getString(R.string.SettingsAccount), getString(R.string.SettingsAccountInfo)));
         items.add(SettingCell.Factory.of(2, IconBackgroundColors.ORANGE.top, IconBackgroundColors.ORANGE.bottom, R.drawable.settings_chat, getString(R.string.SettingsChat), getString(R.string.SettingsChatInfo)));
