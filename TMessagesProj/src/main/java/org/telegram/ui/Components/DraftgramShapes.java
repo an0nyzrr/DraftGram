@@ -7,7 +7,7 @@ import android.graphics.RectF;
 
 public final class DraftgramShapes {
 
-    public static final String[] SHAPE_NAMES = {"Круг", "Squircle", "Печенька 9", "Солнышко", "Цветок 6", "Клевер"};
+    public static final String[] SHAPE_NAMES = {"Круг", "Squircle", "Печенька 9", "Солнышко", "Цветок 6", "Клевер", "Печенька 12"};
 
     public static final String[] ACCENT_NAMES = {"Синий", "Зелёный", "Красный", "Фиолетовый", "Оранжевый", "Жёлтый", "Белый", "Серый"};
     public static final int[] ACCENT_COLORS = {
@@ -63,6 +63,9 @@ public final class DraftgramShapes {
                 path.op(other, Path.Op.UNION);
                 break;
             }
+            case 6:
+                addStar(path, 12, cx, cy, r, r * 0.86f);
+                break;
             default:
                 path.addCircle(cx, cy, r, Path.Direction.CW);
                 break;

@@ -113,6 +113,7 @@ import org.telegram.ui.Components.IconBackgroundColors;
 import org.telegram.ui.Components.ImageUpdater;
 import org.telegram.ui.Components.InstantCameraView;
 import org.telegram.ui.Components.ItemOptions;
+import org.telegram.ui.Components.DraftgramAccountCard;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.Paint.PersistColorPalette;
@@ -795,7 +796,12 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             items.add(UItem.asShadow(null));
         }
 
-        items.add(SettingCell.Factory.of(28, 0xFF7C5CFA, 0xFF5B3FE0, R.drawable.settings_gram_24, "Настройки Draftgram"));
+        View accountEntry = buildDraftgramAccountEntry();
+        if (accountEntry != null) {
+            items.add(UItem.asCustom(accountEntry));
+        } else {
+            items.add(SettingCell.Factory.of(28, 0xFF7C5CFA, 0xFF5B3FE0, R.drawable.settings_gram_24, "Настройки Draftgram"));
+        }
         items.add(UItem.asShadow(null));
         items.add(SettingCell.Factory.of(1, IconBackgroundColors.BLUE.top, IconBackgroundColors.BLUE.bottom, R.drawable.settings_account, getString(R.string.SettingsAccount), getString(R.string.SettingsAccountInfo)));
         items.add(SettingCell.Factory.of(2, IconBackgroundColors.ORANGE.top, IconBackgroundColors.ORANGE.bottom, R.drawable.settings_chat, getString(R.string.SettingsChat), getString(R.string.SettingsChatInfo)));
@@ -877,6 +883,19 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         } else {
             presentFragment(fragment);
         }
+    }
+
+    private View buildDraftgramAccountEntry() {
+        org.telegram.tgnet.TLRPC.User user = UserConfig.getInstance(currentAccount).getCurrentUser();
+        if (user == null) {
+            return null;
+        }
+        FrameLayout holder = new FrameLayout(getContext());
+        holder.setPadding(AndroidUtilities.dp(16), AndroidUtilities.dp(8), AndroidUtilities.dp(16), AndroidUtilities.dp(8));
+        DraftgramAccountCard card = DraftgramAccountCard.forSettings(getContext(), currentAccount, user);
+        card.setOnClickListener(v -> presentFragment(new DraftgramSettingsActivity()));
+        holder.addView(card, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        return holder;
     }
 
     private void onClick(UItem item, View view, int position, float x, float y) {

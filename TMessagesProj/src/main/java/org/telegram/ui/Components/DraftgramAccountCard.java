@@ -19,6 +19,7 @@ import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.utils.settings.DraftgramSettings;
 
 public class DraftgramAccountCard extends LinearLayout {
 
@@ -82,6 +83,15 @@ public class DraftgramAccountCard extends LinearLayout {
             texts.addView(bio);
         }
         addView(texts, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL));
+    }
+
+    /** Card for the settings list: plain background, avatar shape taken from Draftgram settings. */
+    public static DraftgramAccountCard forSettings(Context context, int currentAccount, TLRPC.User user) {
+        int shape = DraftgramSettings.avatarShape.get();
+        if (shape < 0 || shape >= DraftgramShapes.shapeCount()) {
+            shape = 0;
+        }
+        return new DraftgramAccountCard(context, currentAccount, user, false, DraftgramShapes.ACCENT_COLORS[0], shape);
     }
 
     @Override
