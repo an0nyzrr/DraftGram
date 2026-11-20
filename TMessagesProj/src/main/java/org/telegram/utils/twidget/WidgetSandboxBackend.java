@@ -1,5 +1,6 @@
 package org.telegram.utils.twidget;
 
+import org.telegram.messenger.AndroidUtilities;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -486,7 +487,7 @@ final class WidgetSandboxBackend implements WidgetSandboxPainter.Resources, Widg
                     break;
                 default:
                     base = Typeface.create(name, Typeface.NORMAL);
-                    if (base == Typeface.DEFAULT) continue;
+                    if (base == AndroidUtilities.regular()) continue;
             }
             break;
         }

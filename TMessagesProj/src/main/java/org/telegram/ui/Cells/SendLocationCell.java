@@ -216,7 +216,7 @@ public class SendLocationCell extends FrameLayout implements Theme.Colorable {
     {
         textDrawable.setAnimationProperties(.3f, 0, 320, CubicBezierInterpolator.EASE_OUT_QUINT);
         textDrawable.setTextSize(dp(12));
-        textDrawable.setTypeface(Typeface.DEFAULT_BOLD);
+        textDrawable.setTypeface(AndroidUtilities.bold());
         textDrawable.setGravity(Gravity.CENTER);
         textDrawable.setCallback(this);
     }

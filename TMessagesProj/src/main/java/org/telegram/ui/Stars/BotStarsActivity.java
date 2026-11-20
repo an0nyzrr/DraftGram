@@ -303,7 +303,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         int padding = AndroidUtilities.dp(16);
         balanceEditText.setPadding(dp(6), padding, padding, padding);
         balanceEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        balanceEditText.setTypeface(Typeface.DEFAULT);
+        balanceEditText.setTypeface(AndroidUtilities.regular());
         ThemeBind.highlightColor(balanceEditText, Theme.key_chat_inTextSelectionHighlight, getResourceProvider());
         ThemeBind.editHandlesColor(balanceEditText, Theme.key_chat_TextSelectionCursor, getResourceProvider());
         balanceEditText.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);

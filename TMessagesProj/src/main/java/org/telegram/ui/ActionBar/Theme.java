@@ -8183,7 +8183,7 @@ public class Theme {
             chat_radialProgress2Paint.setStyle(Paint.Style.STROKE);
             chat_audioTimePaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
             chat_livePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-            chat_livePaint.setTypeface(Typeface.DEFAULT_BOLD);
+            chat_livePaint.setTypeface(AndroidUtilities.bold());
             chat_audioTitlePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
             chat_audioTitlePaint.setTypeface(AndroidUtilities.bold());
             chat_audioPerformerPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);

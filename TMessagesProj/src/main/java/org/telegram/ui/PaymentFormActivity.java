@@ -1384,7 +1384,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         inputFilters[0] = new InputFilter.LengthFilter(3);
                         inputFields[a].setFilters(inputFilters);
                         inputFields[a].setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                        inputFields[a].setTypeface(Typeface.DEFAULT);
+                        inputFields[a].setTypeface(AndroidUtilities.regular());
                         inputFields[a].setTransformationMethod(PasswordTransformationMethod.getInstance());
                     } else if (a == FIELD_CARD) {
                         inputFields[a].setInputType(InputType.TYPE_CLASS_PHONE);
@@ -1851,7 +1851,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     inputFields[a].setInputType(0);
                 } else {
                     inputFields[a].setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    inputFields[a].setTypeface(Typeface.DEFAULT);
+                    inputFields[a].setTypeface(AndroidUtilities.regular());
                 }
                 inputFields[a].setImeOptions(EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
                 switch (a) {
@@ -2754,7 +2754,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
 
                 if (a == FIELD_ENTERPASSWORD || a == FIELD_REENTERPASSWORD) {
                     inputFields[a].setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    inputFields[a].setTypeface(Typeface.DEFAULT);
+                    inputFields[a].setTypeface(AndroidUtilities.regular());
                     inputFields[a].setImeOptions(EditorInfo.IME_ACTION_NEXT | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
                 } else {
                     inputFields[a].setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);

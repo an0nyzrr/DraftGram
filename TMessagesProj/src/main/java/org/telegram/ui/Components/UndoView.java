@@ -1022,7 +1022,7 @@ public class UndoView extends FrameLayout implements Theme.Colorable {
                 layoutParams.rightMargin = AndroidUtilities.dp(8);
                 subinfoTextView.setVisibility(GONE);
                 infoTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-                infoTextView.setTypeface(Typeface.DEFAULT);
+                infoTextView.setTypeface(AndroidUtilities.regular());
             }
 
             undoButton.setVisibility(GONE);
@@ -1035,7 +1035,7 @@ public class UndoView extends FrameLayout implements Theme.Colorable {
             undoImageView.setVisibility(GONE);
             leftImageView.setVisibility(VISIBLE);
 
-            infoTextView.setTypeface(Typeface.DEFAULT);
+            infoTextView.setTypeface(AndroidUtilities.regular());
             long hapticDelay = -1;
             if (currentAction == ACTION_GIGAGROUP_SUCCESS) {
                 infoTextView.setText(LocaleController.getString(R.string.BroadcastGroupConvertSuccess));
@@ -1254,7 +1254,7 @@ public class UndoView extends FrameLayout implements Theme.Colorable {
 
                 layoutParams.topMargin = AndroidUtilities.dp(6);
             } else {
-                infoTextView.setTypeface(Typeface.DEFAULT);
+                infoTextView.setTypeface(AndroidUtilities.regular());
                 infoTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
                 leftImageView.clearLayerColors();
                 setLayerColorKey("Body Main", Theme.key_undo_infoColor, false);
@@ -1434,7 +1434,7 @@ public class UndoView extends FrameLayout implements Theme.Colorable {
         } else if (currentAction == ACTION_PREMIUM_TRANSCRIPTION) {
             infoTextView.setVisibility(VISIBLE);
             infoTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-            infoTextView.setTypeface(Typeface.DEFAULT);
+            infoTextView.setTypeface(AndroidUtilities.regular());
             infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.UnlockPremiumTranscriptionHint)));
             leftImageView.setVisibility(VISIBLE);
             leftImageView.setAnimation(R.raw.voice_to_text, 36, 36);
@@ -1499,7 +1499,7 @@ public class UndoView extends FrameLayout implements Theme.Colorable {
             layoutParams.rightMargin = AndroidUtilities.dp(8);
             infoTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             undoButton.setVisibility(GONE);
-            infoTextView.setTypeface(Typeface.DEFAULT);
+            infoTextView.setTypeface(AndroidUtilities.regular());
             subinfoTextView.setVisibility(GONE);
 
             leftImageView.setVisibility(VISIBLE);
@@ -1519,7 +1519,7 @@ public class UndoView extends FrameLayout implements Theme.Colorable {
 
             infoTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             undoButton.setVisibility(VISIBLE);
-            infoTextView.setTypeface(Typeface.DEFAULT);
+            infoTextView.setTypeface(AndroidUtilities.regular());
             subinfoTextView.setVisibility(GONE);
 
             leftImageView.setVisibility(VISIBLE);
@@ -1533,7 +1533,7 @@ public class UndoView extends FrameLayout implements Theme.Colorable {
             infoTextView.setText(photoEntry.isVideo ? LocaleController.getString(R.string.AttachMediaVideoDeselected) : LocaleController.getString(R.string.AttachMediaPhotoDeselected));
             undoButton.setVisibility(VISIBLE);
             infoTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-            infoTextView.setTypeface(Typeface.DEFAULT);
+            infoTextView.setTypeface(AndroidUtilities.regular());
             subinfoTextView.setVisibility(GONE);
 
             avatarImageView.setVisibility(VISIBLE);
@@ -1557,7 +1557,7 @@ public class UndoView extends FrameLayout implements Theme.Colorable {
 
             infoTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             undoButton.setVisibility(VISIBLE);
-            infoTextView.setTypeface(Typeface.DEFAULT);
+            infoTextView.setTypeface(AndroidUtilities.regular());
             subinfoTextView.setVisibility(GONE);
             leftImageView.setVisibility(GONE);
 
@@ -1581,7 +1581,7 @@ public class UndoView extends FrameLayout implements Theme.Colorable {
                     subinfoTextView.setVisibility(VISIBLE);
                     subinfoTextView.setText(LocaleController.formatPluralString("FolderLinkDeletedSubtitle", chatsCount));
                 } else {
-                    infoTextView.setTypeface(Typeface.DEFAULT);
+                    infoTextView.setTypeface(AndroidUtilities.regular());
                     infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FolderLinkDeleted", R.string.FolderLinkDeleted, (folderName == null ? "" : folderName).replace('*', '✱'))));
                 }
             } else if (currentAction == ACTION_CLEAR_DATES || currentAction == ACTION_CLEAR || currentAction == ACTION_CLEAR_FEW) {

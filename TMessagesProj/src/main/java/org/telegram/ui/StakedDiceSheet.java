@@ -239,7 +239,7 @@ public class StakedDiceSheet extends BottomSheetWithRecyclerListView {
         int padding = AndroidUtilities.dp(16);
         editText.setPadding(dp(6), padding, padding, padding);
         editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        editText.setTypeface(Typeface.DEFAULT);
+        editText.setTypeface(AndroidUtilities.regular());
         editText.setSelectAllOnFocus(true);
         ThemeBind.highlightColor(editText, Theme.key_chat_inTextSelectionHighlight, resourcesProvider);
         ThemeBind.editHandlesColor(editText, Theme.key_chat_TextSelectionCursor, resourcesProvider);

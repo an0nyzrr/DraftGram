@@ -5643,7 +5643,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             codeField.setPadding(padding, padding, padding, padding);
             codeField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             codeField.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            codeField.setTypeface(Typeface.DEFAULT);
+            codeField.setTypeface(AndroidUtilities.regular());
             codeField.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
             codeField.setOnFocusChangeListener((v, hasFocus) -> outlineCodeField.animateSelection(hasFocus ? 1f : 0f));
             outlineCodeField.attachEditText(codeField);
@@ -7679,7 +7679,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     codeField[a].setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     codeField[a].setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
-                codeField[a].setTypeface(Typeface.DEFAULT);
+                codeField[a].setTypeface(AndroidUtilities.regular());
                 codeField[a].setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
 
                 EditText field = codeField[a];
@@ -8950,7 +8950,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             editTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             editTextView.setBackground(Theme.getRoundRectSelectorDrawable(AndroidUtilities.dp(6), Theme.getColor(Theme.key_changephoneinfo_image2)));
             editTextView.setOnClickListener(v -> callback.onEditPressed(this, editTextView));
-            editTextView.setTypeface(Typeface.DEFAULT_BOLD);
+            editTextView.setTypeface(AndroidUtilities.bold());
             editTextView.setPadding(buttonPadding, buttonPadding / 2, buttonPadding, buttonPadding / 2);
             popupLayout.addView(editTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM | (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT), buttonMargin, buttonMargin, buttonMargin, buttonMargin));
 
@@ -8960,7 +8960,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             confirmTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             confirmTextView.setBackground(Theme.getRoundRectSelectorDrawable(AndroidUtilities.dp(6), Theme.getColor(Theme.key_changephoneinfo_image2)));
             confirmTextView.setOnClickListener(v -> callback.onConfirmPressed(this, confirmTextView));
-            confirmTextView.setTypeface(Typeface.DEFAULT_BOLD);
+            confirmTextView.setTypeface(AndroidUtilities.bold());
             confirmTextView.setPadding(buttonPadding, buttonPadding / 2, buttonPadding, buttonPadding / 2);
             popupLayout.addView(confirmTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM | (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT), buttonMargin, buttonMargin, buttonMargin, buttonMargin));
 
@@ -9326,7 +9326,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             codeField.setEllipsizeByGradient(true);
             codeField.setInputType(InputType.TYPE_CLASS_TEXT);
 
-            codeField.setTypeface(Typeface.DEFAULT);
+            codeField.setTypeface(AndroidUtilities.regular());
             codeField.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
 
             codeField.setOnFocusChangeListener((v, hasFocus) -> outlineField.animateSelection(hasFocus ? 1f : 0f));

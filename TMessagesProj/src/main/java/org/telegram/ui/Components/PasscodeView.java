@@ -639,7 +639,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         passwordEditText.setGravity(Gravity.CENTER_HORIZONTAL);
         passwordEditText.setSingleLine(true);
         passwordEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        passwordEditText.setTypeface(Typeface.DEFAULT);
+        passwordEditText.setTypeface(AndroidUtilities.regular());
         passwordEditText.setBackgroundDrawable(null);
         passwordEditText.setCursorColor(0xffffffff);
         passwordEditText.setCursorSize(dp(32));

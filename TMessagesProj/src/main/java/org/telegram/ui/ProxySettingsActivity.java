@@ -407,7 +407,7 @@ public class ProxySettingsActivity extends BaseFragment {
                 });
             } else if (a == FIELD_PASSWORD) {
                 inputFields[a].setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                inputFields[a].setTypeface(Typeface.DEFAULT);
+                inputFields[a].setTypeface(AndroidUtilities.regular());
                 inputFields[a].setTransformationMethod(PasswordTransformationMethod.getInstance());
             } else {
                 inputFields[a].setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);

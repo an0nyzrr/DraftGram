@@ -85,7 +85,7 @@ public class WalletWordCell extends FrameLayout {
         editText.setIncludeFontPadding(false);
         editText.setSingleLine(true);
         editText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-        editText.setTypeface(Typeface.DEFAULT);
+        editText.setTypeface(AndroidUtilities.regular());
         ThemeBind.hintTextColor(editText, Theme.key_windowBackgroundWhiteGrayText2, resourcesProvider);
         ThemeBind.textColor(editText, Theme.key_windowBackgroundWhiteBlackText, resourcesProvider);
         editText.setHint("");

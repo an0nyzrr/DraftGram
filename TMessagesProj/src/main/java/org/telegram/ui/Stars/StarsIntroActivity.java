@@ -5404,7 +5404,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         int padding = AndroidUtilities.dp(16);
         editText.setPadding(dp(6), padding, padding, padding);
         editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        editText.setTypeface(Typeface.DEFAULT);
+        editText.setTypeface(AndroidUtilities.regular());
         editText.setSelectAllOnFocus(true);
         ThemeBind.highlightColor(editText, Theme.key_chat_inTextSelectionHighlight, resourcesProvider);
         ThemeBind.editHandlesColor(editText, Theme.key_chat_TextSelectionCursor, resourcesProvider);
@@ -5625,7 +5625,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         int padding = AndroidUtilities.dp(16);
         editText.setPadding(dp(6), padding, padding, padding);
         editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        editText.setTypeface(Typeface.DEFAULT);
+        editText.setTypeface(AndroidUtilities.regular());
         editText.setSelectAllOnFocus(true);
         editText.setHighlightColor(Theme.getColor(Theme.key_chat_inTextSelectionHighlight, resourcesProvider));
         editText.setHandlesColor(Theme.getColor(Theme.key_chat_TextSelectionCursor, resourcesProvider));

@@ -933,7 +933,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
 
         emptyView = new StickerEmptyView(context, flickerView, StickerEmptyView.STICKER_TYPE_SEARCH, getResourceProvider());
         emptyView.setAnimateLayoutChange(true);
-        emptyView.title.setTypeface(Typeface.DEFAULT);
+        emptyView.title.setTypeface(AndroidUtilities.regular());
         emptyView.title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         ThemeBind.textColor(emptyView.title, Theme.key_windowBackgroundWhiteGrayText, getResourceProvider());
         emptyView.addView(flickerView, 0);

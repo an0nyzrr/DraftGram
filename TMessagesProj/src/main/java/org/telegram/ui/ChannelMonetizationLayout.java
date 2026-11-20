@@ -374,7 +374,7 @@ public class ChannelMonetizationLayout extends SiblingRecyclerPagerLayout implem
         int padding = AndroidUtilities.dp(16);
         starsBalanceEditText.setPadding(dp(6), padding, padding, padding);
         starsBalanceEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        starsBalanceEditText.setTypeface(Typeface.DEFAULT);
+        starsBalanceEditText.setTypeface(AndroidUtilities.regular());
         ThemeBind.highlightColor(starsBalanceEditText, Theme.key_chat_inTextSelectionHighlight, resourcesProvider);
         ThemeBind.editHandlesColor(starsBalanceEditText, Theme.key_chat_TextSelectionCursor, resourcesProvider);
         starsBalanceEditText.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);

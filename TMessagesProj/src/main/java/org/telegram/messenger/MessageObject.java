@@ -5778,7 +5778,7 @@ public class MessageObject {
                             if (end < _messageText.length() && _messageText.charAt(end) == ')') {
                                 end++;
                             }
-                            sp.setSpan(new TypefaceSpan(Typeface.DEFAULT), start, end, 0);
+                            sp.setSpan(new TypefaceSpan(AndroidUtilities.regular()), start, end, 0);
                             messageText = sp;
                         }
                     }
@@ -5834,7 +5834,7 @@ public class MessageObject {
                             if (end < _messageText.length() && _messageText.charAt(end) == ')') {
                                 end++;
                             }
-                            sp.setSpan(new TypefaceSpan(Typeface.DEFAULT), start, end, 0);
+                            sp.setSpan(new TypefaceSpan(AndroidUtilities.regular()), start, end, 0);
                             messageText = sp;
                         }
                     }
