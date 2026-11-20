@@ -77,6 +77,10 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
 
     private final TextPaint defaultTextPaint;
 
+    private static final float HORIZONTAL_ICON_SIZE_DP = 24f;
+    private static final float HORIZONTAL_ICON_GAP_DP = 8f;
+    private boolean horizontal;
+
     public GlassTabView(@NonNull Context context) {
         super(context);
         imageView = new RLottieImageView(context);
@@ -121,11 +125,39 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
     }
 
     private void checkVisualWidth() {
+        float offset = horizontalOffset();
         if (hasVisualWidth) {
-            final float offset = (visualWidth - getMeasuredWidth()) / 2f;
-            imageView.setTranslationX(offset);
-            textView.setTranslationX(offset);
+            offset += (visualWidth - getMeasuredWidth()) / 2f;
         }
+        imageView.setTranslationX(offset);
+        textView.setTranslationX(offset);
+    }
+
+    private float horizontalExtraWidth() {
+        return horizontal ? dpf2(HORIZONTAL_ICON_SIZE_DP + HORIZONTAL_ICON_GAP_DP) : 0;
+    }
+
+    private float horizontalContentWidth() {
+        return horizontalExtraWidth() + defaultTextPaint.measureText(textView.getText().toString());
+    }
+
+    private float horizontalOffset() {
+        if (!horizontal) {
+            return 0;
+        }
+        return Math.max(0, (getMeasuredWidth() - horizontalContentWidth()) / 2f);
+    }
+
+    /** Icon on the left, label on the right, the pair centred in the tab. */
+    public void setHorizontalLayout() {
+        horizontal = true;
+        imageView.setLayoutParams(LayoutHelper.createFrame(24, 24, Gravity.LEFT | Gravity.CENTER_VERTICAL, 0, 0, 0, 0));
+        textView.setLayoutParams(LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.CENTER_VERTICAL, HORIZONTAL_ICON_SIZE_DP + HORIZONTAL_ICON_GAP_DP, 0, 0, 0));
+        textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14f);
+        defaultTextPaint.setTextSize(dp(14));
+        checkVisualWidth();
+        invalidate();
     }
 
     private static final RectF tmpRectF = new RectF();
@@ -176,8 +208,8 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
             canvas.save();
 
             final float gap = dpf2(1.33f);
-            final float cx = viewWidth / 2f + dpf2(11);
-            final float cy = dpf2(10);
+            final float cx = horizontal ? viewWidth / 2f + horizontalContentWidth() / 2f : viewWidth / 2f + dpf2(11);
+            final float cy = horizontal ? getHeight() / 2f - dpf2(12) : dpf2(10);
             final float height = dpf2(16);
             final float width = Math.max(height, counter.getCurrentWidth() + dp(8));
             final float rOuter = dpf2(9.333f);
@@ -420,7 +452,7 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
         tab.tabAnimation = tabAnimation;
         tab.textView.setText(LocaleController.getString(stringRes));
         tab.checkPlayAnimation(false);
-        tab.imageView.setLayoutParams(LayoutHelper.createFrame(24, 24, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 4, 0, 0));
+        tab.setHorizontalLayout();
         tab.colorDefault = Theme.getColor(Theme.key_glass_tabUnselected, resourcesProvider);
         tab.colorSelected = Theme.getColor(Theme.key_glass_tabSelected, resourcesProvider);
         tab.colorSelectedText = Theme.getColor(Theme.key_glass_tabSelectedText, resourcesProvider);
@@ -531,7 +563,7 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
 
     @Override
     public float measureTextWidth() {
-        return defaultTextPaint.measureText(textView.getText().toString());
+        return defaultTextPaint.measureText(textView.getText().toString()) + horizontalExtraWidth();
     }
 
     private TextPaint scaledTextPaint;
@@ -542,7 +574,7 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
             scaledTextPaint = new TextPaint(defaultTextPaint);
         }
         scaledTextPaint.setTextSize(dp(textSizeDp));
-        return scaledTextPaint.measureText(textView.getText().toString());
+        return scaledTextPaint.measureText(textView.getText().toString()) + horizontalExtraWidth();
     }
 
     @Override
