@@ -11681,4 +11681,6 @@ Ghost Mode and message saving.</string>
     <string name="FpnvConsentSimSlotValue">SIM %1$d</string>
     <string name="FpnvConsentPhoneNumber">Phone Number</string>
     <string name="DraftgramDeletedMark">Deleted</string>
+    <string name="RequestCode">Request code</string>
+    <string name="CodeNotSms">The code comes not by SMS but in Telegram, because this is an unofficial Telegram client.</string>
 </resources>

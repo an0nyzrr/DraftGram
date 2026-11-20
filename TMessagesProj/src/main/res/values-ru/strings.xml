@@ -265,4 +265,6 @@ Ghost Mode и сохранение сообщений.</string>
     <string name="RemindDayAt">\'Отправить\' d MMM \'в\' HH:mm</string>
     <string name="RemindDayYearAt">\'Напомнить\' d MMM yyyy \'в\' HH:mm</string>
     <string name="DraftgramDeletedMark">Удалено</string>
+    <string name="RequestCode">Запросить код</string>
+    <string name="CodeNotSms">Код приходит не на SMS, а в Telegram, т.к это неофициальный клиент Telegram.</string>
 </resources>

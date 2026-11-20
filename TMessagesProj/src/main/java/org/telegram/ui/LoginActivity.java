@@ -752,6 +752,9 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         floatingButton.setButtonVisible(doneButtonVisible[DONE_TYPE_FLOATING], false);
         floatingAutoAnimator = VerticalPositionAutoAnimator.attach(floatingButton);
         sizeNotifierFrameLayout.addView(floatingButton, FragmentFloatingButton.createDefaultLayoutParamsBig());
+        if (Theme.isCurrentThemeDark()) {
+            sizeNotifierFrameLayout.setBackgroundColor(0xFF14293E);
+        }
         floatingButton.setOnClickListener(view -> onDoneButtonPressed());
         floatingAutoAnimator.addUpdateListener((animation, value, velocity) -> {
             if (phoneNumberConfirmView != null) {
@@ -833,7 +836,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 setCustomKeyboardVisible(v.hasCustomKeyboard(), false);
 
                 currentDoneType = DONE_TYPE_FLOATING;
-                boolean needFloatingButton = a == VIEW_PHONE_INPUT || a == VIEW_REGISTER ||
+                boolean needFloatingButton = a == VIEW_REGISTER ||
                         a == VIEW_PASSWORD || a == VIEW_NEW_PASSWORD_STAGE_1 || a == VIEW_NEW_PASSWORD_STAGE_2 ||
                         a == VIEW_ADD_EMAIL;
                 showDoneButton(needFloatingButton, false);
@@ -2057,6 +2060,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             titleView = new TextView(context);
             titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
             titleView.setTypeface(AndroidUtilities.bold());
+            titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
             titleView.setText(getString(activityMode == MODE_CHANGE_PHONE_NUMBER ? R.string.ChangePhoneNewNumber : R.string.YourNumber));
             titleView.setGravity(Gravity.CENTER);
             titleView.setLineSpacing(dp(2), 1.0f);
@@ -2143,6 +2147,23 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             phoneOutlineView.addView(linearLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 16, 8, 16, 8));
             phoneOutlineView.setText(getString(R.string.PhoneNumber));
             addView(phoneOutlineView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 58, 16, 8, 16, 8));
+
+            TextView requestCodeButton = new TextView(context);
+            requestCodeButton.setText(getString(R.string.RequestCode));
+            requestCodeButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
+            requestCodeButton.setTypeface(AndroidUtilities.bold());
+            requestCodeButton.setTextColor(0xFFFFFFFF);
+            requestCodeButton.setGravity(Gravity.CENTER);
+            requestCodeButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(16), 0xFF0084FF, 0xFF006FDD));
+            requestCodeButton.setOnClickListener(v -> onNextPressed(null));
+            addView(requestCodeButton, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 56, 16, 16, 16, 0));
+
+            TextView requestCodeHint = new TextView(context);
+            requestCodeHint.setText(getString(R.string.CodeNotSms));
+            requestCodeHint.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
+            requestCodeHint.setTextColor(0x80FFFFFF);
+            requestCodeHint.setGravity(Gravity.CENTER);
+            addView(requestCodeHint, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 40, 12, 40, 0));
 
             plusTextView = new TextView(context);
             plusTextView.setText("+");
