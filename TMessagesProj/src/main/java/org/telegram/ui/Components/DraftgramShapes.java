@@ -5,6 +5,8 @@ package org.telegram.ui.Components;
 import android.graphics.Path;
 import android.graphics.RectF;
 
+import org.telegram.utils.settings.DraftgramSettings;
+
 public final class DraftgramShapes {
 
     public static final String[] SHAPE_NAMES = {"Круг", "Squircle", "Печенька 9", "Солнышко", "Цветок 6", "Клевер", "Печенька 12"};
@@ -24,6 +26,23 @@ public final class DraftgramShapes {
 
     public static int accentCount() {
         return ACCENT_NAMES.length;
+    }
+
+    public static int avatarShapeIndex() {
+        int index = DraftgramSettings.avatarShape.get();
+        return index >= 0 && index < SHAPE_NAMES.length ? index : 0;
+    }
+
+    public static int accentColor() {
+        int index = DraftgramSettings.accent.get();
+        return ACCENT_COLORS[index >= 0 && index < ACCENT_COLORS.length ? index : 0];
+    }
+
+    public static int darker(int color) {
+        int r = (int) (((color >> 16) & 0xFF) * 0.85f);
+        int g = (int) (((color >> 8) & 0xFF) * 0.85f);
+        int b = (int) ((color & 0xFF) * 0.85f);
+        return 0xFF000000 | (r << 16) | (g << 8) | b;
     }
 
     /** Builds the outline of shape {@code index} centred on (cx, cy) with radius r. */

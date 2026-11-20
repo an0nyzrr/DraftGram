@@ -62,6 +62,9 @@ public class AvatarDrawable extends Drawable {
     private float scaleSize = 1f;
     private StringBuilder stringBuilder = new StringBuilder(5);
     private int roundRadius = -1;
+    private android.graphics.Path draftgramShapePath;
+    private int draftgramShapeIndex = -1;
+    private int draftgramShapeSize = -1;
 
     private int gradientTop, gradientBottom;
     private int gradientColor1, gradientColor2;
@@ -651,7 +654,17 @@ public class AvatarDrawable extends Drawable {
                 AndroidUtilities.rectTmp.set(0, 0, size, size);
                 canvas.drawRoundRect(AndroidUtilities.rectTmp, roundRadius, roundRadius, backgroundPaint);
             } else {
-                canvas.drawCircle(size / 2.0f, size / 2.0f, size / 2.0f, backgroundPaint);
+                int shape = DraftgramShapes.avatarShapeIndex();
+                if (shape == 0) {
+                    canvas.drawCircle(size / 2.0f, size / 2.0f, size / 2.0f, backgroundPaint);
+                } else {
+                    if (draftgramShapePath == null || draftgramShapeIndex != shape || draftgramShapeSize != size) {
+                        draftgramShapePath = DraftgramShapes.buildPath(shape, size / 2.0f, size / 2.0f, size / 2.0f);
+                        draftgramShapeIndex = shape;
+                        draftgramShapeSize = size;
+                    }
+                    canvas.drawPath(draftgramShapePath, backgroundPaint);
+                }
             }
             if (rotate45Background) {
                 canvas.restore();

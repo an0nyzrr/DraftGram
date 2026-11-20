@@ -106,6 +106,7 @@ import org.telegram.ui.Cells.BaseCell;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AudioVisualizerDrawable;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
+import org.telegram.ui.Components.DraftgramShapes;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ChoosingStickerStatusDrawable;
@@ -9122,7 +9123,28 @@ public class Theme {
         return getColor(key, isDefault, false);
     }
 
+    private static final int[] DRAFTGRAM_ACCENT_KEYS = {
+            key_dialogTextBlue, key_dialogButton, key_windowBackgroundWhiteBlueButton, key_windowBackgroundWhiteBlueHeader,
+            key_windowBackgroundWhiteBlueText, key_switchTrackChecked, key_featuredStickers_addButton,
+            key_dialogRoundCheckBox, key_actionBarTabActiveText, key_chats_actionBackground
+    };
+
+    private static boolean isDraftgramAccentKey(int key) {
+        for (int accentKey : DRAFTGRAM_ACCENT_KEYS) {
+            if (accentKey == key) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static int getColor(int key, boolean[] isDefault, boolean ignoreAnimation) {
+        if (isDraftgramAccentKey(key)) {
+            if (isDefault != null) {
+                isDefault[0] = false;
+            }
+            return DraftgramShapes.accentColor();
+        }
         if (SharedConfig.compactMode) {
             // compact mode swaps some message colors for its own keys, see getCompactColor
             final Integer compactColor = getCompactColor(key, null);

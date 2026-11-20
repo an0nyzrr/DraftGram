@@ -42,6 +42,7 @@ import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.Components.AttachableDrawable;
 import org.telegram.ui.Components.AvatarDrawable;
+import org.telegram.ui.Components.DraftgramShapes;
 import org.telegram.ui.Components.ClipRoundedDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LoadingStickerDrawable;
@@ -1266,6 +1267,24 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         useRoundForThumb = value;
     }
 
+    /**
+     * Fills roundPath with the Draftgram avatar shape when the receiver is drawn as a circle
+     * and a non-circle shape is selected. Returns false when the regular radius path must be used.
+     */
+    private boolean prepareDraftgramShapePath(RectF rect, int[] radii) {
+        int shape = DraftgramShapes.avatarShapeIndex();
+        if (shape == 0 || radii == null || radii.length == 0) {
+            return false;
+        }
+        float half = Math.min(rect.width(), rect.height()) / 2f;
+        if (half <= 0 || radii[0] < half - 1f) {
+            return false;
+        }
+        roundPath.reset();
+        roundPath.set(DraftgramShapes.buildPath(shape, rect.centerX(), rect.centerY(), half));
+        return true;
+    }
+
     protected void drawDrawable(Canvas canvas, Drawable drawable, int alpha, BitmapShader shader, int orientation, int invert, int isPressed, BackgroundThreadDrawHolder backgroundThreadDrawHolder) {
         float imageX, imageY, imageH, imageW;
         RectF drawRegion;
@@ -1404,7 +1423,8 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                         roundPaint.setAlpha(alpha);
                         roundRect.set(drawRegion);
 
-                        if (isRoundRect && useRoundRadius) {
+                        boolean shaped = prepareDraftgramShapePath(roundRect, roundRadius);
+                        if (!shaped && isRoundRect && useRoundRadius) {
                             try {
                                 if (canvas != null) {
                                     if (roundRadius[0] == 0) {
@@ -1418,13 +1438,15 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                                 FileLog.e(e);
                             }
                         } else {
-                            for (int a = 0; a < roundRadius.length; a++) {
-                                radii[a * 2] = roundRadius[a];
-                                radii[a * 2 + 1] = roundRadius[a];
+                            if (!shaped) {
+                                for (int a = 0; a < roundRadius.length; a++) {
+                                    radii[a * 2] = roundRadius[a];
+                                    radii[a * 2 + 1] = roundRadius[a];
+                                }
+                                roundPath.reset();
+                                roundPath.addRoundRect(roundRect, radii, Path.Direction.CW);
+                                roundPath.close();
                             }
-                            roundPath.reset();
-                            roundPath.addRoundRect(roundRect, radii, Path.Direction.CW);
-                            roundPath.close();
                             if (canvas != null) {
                                 canvas.drawPath(roundPath, roundPaint);
                             }
@@ -2066,13 +2088,15 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                         if (crossfadeByScale > 0 && currentAlpha < 1 && crossfadingWithThumb) {
                             canvas.save();
                             restore = true;
-                            roundPath.rewind();
                             AndroidUtilities.rectTmp.set(imageX, imageY, imageX + imageW, imageY + imageH);
-                            for (int a = 0; a < roundRadius.length; a++) {
-                                radii[a * 2] = roundRadius[a];
-                                radii[a * 2 + 1] = roundRadius[a];
+                            if (!prepareDraftgramShapePath(AndroidUtilities.rectTmp, roundRadius)) {
+                                roundPath.rewind();
+                                for (int a = 0; a < roundRadius.length; a++) {
+                                    radii[a * 2] = roundRadius[a];
+                                    radii[a * 2 + 1] = roundRadius[a];
+                                }
+                                roundPath.addRoundRect(AndroidUtilities.rectTmp, radii, Path.Direction.CW);
                             }
-                            roundPath.addRoundRect(AndroidUtilities.rectTmp, radii, Path.Direction.CW);
                             canvas.clipPath(roundPath);
                             float s = 1f + crossfadeByScale * (1f - CubicBezierInterpolator.EASE_IN.getInterpolation(crossfadeProgress));
                             canvas.scale(s, s, getCenterX(), getCenterY());

@@ -15,6 +15,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.DraftgramAccountCard;
 import org.telegram.ui.Components.DraftgramShapes;
@@ -162,6 +163,11 @@ public class DraftgramSettingsActivity extends UniversalFragment {
         return new DraftgramAccountCard(getContext(), currentAccount, user, premium, accentColor(), avatarShape());
     }
 
+    private void applyDraftgramVisualChange() {
+        Theme.reloadAllResources(getContext());
+        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewTheme, false);
+    }
+
     private int avatarShape() {
         return clamp(DraftgramSettings.avatarShape.get(), DraftgramShapes.shapeCount());
     }
@@ -272,11 +278,13 @@ public class DraftgramSettingsActivity extends UniversalFragment {
         }
         if (item.id == ID_AVATAR_SHAPE) {
             DraftgramSettings.avatarShape.set((avatarShape() + 1) % DraftgramShapes.shapeCount());
+            applyDraftgramVisualChange();
             listView.adapter.update(true);
             return;
         }
         if (item.id == ID_ACCENT) {
             DraftgramSettings.accent.set((accentIndex() + 1) % DraftgramShapes.accentCount());
+            applyDraftgramVisualChange();
             listView.adapter.update(true);
             return;
         }

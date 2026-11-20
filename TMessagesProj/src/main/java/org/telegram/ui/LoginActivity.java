@@ -177,6 +177,7 @@ import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.FragmentFloatingButton;
 import org.telegram.ui.Components.ImageUpdater;
 import org.telegram.ui.Components.ItemOptions;
+import org.telegram.ui.Components.DraftgramShapes;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.TableView;
 import org.telegram.ui.Components.LinkPath;
@@ -2154,7 +2155,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             requestCodeButton.setTypeface(AndroidUtilities.bold());
             requestCodeButton.setTextColor(0xFFFFFFFF);
             requestCodeButton.setGravity(Gravity.CENTER);
-            requestCodeButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(16), 0xFF0084FF, 0xFF006FDD));
+            requestCodeButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(16), DraftgramShapes.accentColor(), DraftgramShapes.darker(DraftgramShapes.accentColor())));
             requestCodeButton.setOnClickListener(v -> onNextPressed(null));
             addView(requestCodeButton, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 56, 16, 16, 16, 0));
 
