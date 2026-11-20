@@ -42,6 +42,8 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.TextureView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -423,6 +425,15 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
 
         frameContainerView.addView(themeFrameLayout, LayoutHelper.createFrame(64, 64, Gravity.TOP | Gravity.RIGHT, 0, themeMargin, themeMargin, 0));
 
+        frameLayout2.setVisibility(View.GONE);
+        viewPager.setVisibility(View.GONE);
+        bottomPages.setVisibility(View.GONE);
+        startMessagingButton.setVisibility(View.GONE);
+        switchLanguageTextView.setVisibility(View.GONE);
+        themeFrameLayout.setVisibility(View.GONE);
+        frameContainerView.setMinimumHeight(AndroidUtilities.displaySize.y);
+        frameContainerView.addView(buildDraftgramIntro(context), LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+
         fragmentView = scrollView;
 
         NotificationCenter.getGlobalInstance().addWeakObserver(this, NotificationCenter.suggestedLangpack);
@@ -473,6 +484,78 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.suggestedLangpack);
         NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.configLoaded);
         MessagesController.getGlobalMainSettings().edit().putLong("intro_crashed_time", 0).apply();
+    }
+
+    /** Статичный экран входа по макету: логотип без круга, подпись и капсула выбора языка. */
+    private View buildDraftgramIntro(Context context) {
+        final boolean dark = Theme.isCurrentThemeDark();
+        final int textColor = dark ? 0xFFFFFFFF : Theme.getColor(Theme.key_windowBackgroundWhiteBlackText);
+        final int grayColor = dark ? 0xCCFFFFFF : Theme.getColor(Theme.key_windowBackgroundWhiteGrayText);
+
+        LinearLayout root = new LinearLayout(context);
+        root.setOrientation(LinearLayout.VERTICAL);
+        root.setGravity(Gravity.CENTER_HORIZONTAL);
+        root.setBackgroundColor(dark ? 0xFF14293E : Theme.getColor(Theme.key_windowBackgroundWhite));
+        root.setPadding(dp(24), dp(48), dp(24), dp(40));
+
+        View topSpacer = new View(context);
+        root.addView(topSpacer, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 0, 1f, 0, 0, 0, 0));
+
+        ImageView logo = new ImageView(context);
+        logo.setImageResource(R.drawable.dg_logo_full);
+        logo.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        root.addView(logo, LayoutHelper.createLinear(200, 200, Gravity.CENTER_HORIZONTAL, 0, 0, 0, 0));
+
+        TextView title = new TextView(context);
+        title.setText("Draftgram");
+        title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 32);
+        title.setTypeface(AndroidUtilities.bold());
+        title.setTextColor(textColor);
+        title.setGravity(Gravity.CENTER);
+        root.addView(title, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 24, 0, 0));
+
+        TextView subtitle = new TextView(context);
+        subtitle.setText("Telegram с дополнениями: режим призрака, сохранения сообщений и своя кастомизация");
+        subtitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+        subtitle.setTextColor(grayColor);
+        subtitle.setGravity(Gravity.CENTER);
+        root.addView(subtitle, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 12, 0, 0));
+
+        View bottomSpacer = new View(context);
+        root.addView(bottomSpacer, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 0, 1f, 0, 0, 0, 0));
+
+        LinearLayout capsule = new LinearLayout(context);
+        capsule.setOrientation(LinearLayout.HORIZONTAL);
+        GradientDrawable capsuleBg = new GradientDrawable();
+        capsuleBg.setCornerRadius(dp(24));
+        capsuleBg.setStroke(dp(1), dark ? 0x66FFFFFF : 0x66000000);
+        capsule.setBackground(capsuleBg);
+
+        TextView left = new TextView(context);
+        left.setText("продолжить на русском");
+        left.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        left.setTypeface(AndroidUtilities.bold());
+        left.setTextColor(0xFF14293E);
+        left.setGravity(Gravity.CENTER);
+        left.setPadding(dp(16), 0, dp(16), 0);
+        GradientDrawable leftBg = new GradientDrawable();
+        leftBg.setCornerRadius(dp(24));
+        leftBg.setColor(0xFFFFFFFF);
+        left.setBackground(leftBg);
+        left.setOnClickListener(v -> startMessagingButton.performClick());
+        capsule.addView(left, LayoutHelper.createLinear(0, 48, 1f, 0, 0, 0, 0));
+
+        TextView right = new TextView(context);
+        right.setText("continue in english");
+        right.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        right.setTextColor(textColor);
+        right.setGravity(Gravity.CENTER);
+        right.setPadding(dp(16), 0, dp(16), 0);
+        right.setOnClickListener(v -> switchLanguageTextView.performClick());
+        capsule.addView(right, LayoutHelper.createLinear(0, 48, 1f, 0, 0, 0, 0));
+
+        root.addView(capsule, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48, Gravity.CENTER_HORIZONTAL, 0, 0, 0, 0));
+        return root;
     }
 
     private void checkContinueText() {
