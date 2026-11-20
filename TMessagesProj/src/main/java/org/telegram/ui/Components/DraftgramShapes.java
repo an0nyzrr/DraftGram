@@ -5,7 +5,9 @@ package org.telegram.ui.Components;
 import android.graphics.Path;
 import android.graphics.RectF;
 
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.utils.settings.DraftgramSettings;
+import org.telegram.utils.settings.IntSetting;
 
 public final class DraftgramShapes {
 
@@ -28,13 +30,25 @@ public final class DraftgramShapes {
         return ACCENT_NAMES.length;
     }
 
+    /** Reads a setting only once the app context exists; otherwise falls back to 0 without touching the prefs holder. */
+    private static int readSetting(IntSetting setting) {
+        if (ApplicationLoader.applicationContext == null) {
+            return 0;
+        }
+        try {
+            return setting.get();
+        } catch (Throwable t) {
+            return 0;
+        }
+    }
+
     public static int avatarShapeIndex() {
-        int index = DraftgramSettings.avatarShape.get();
+        int index = readSetting(DraftgramSettings.avatarShape);
         return index >= 0 && index < SHAPE_NAMES.length ? index : 0;
     }
 
     public static int accentColor() {
-        int index = DraftgramSettings.accent.get();
+        int index = readSetting(DraftgramSettings.accent);
         return ACCENT_COLORS[index >= 0 && index < ACCENT_COLORS.length ? index : 0];
     }
 
