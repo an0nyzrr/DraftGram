@@ -132,11 +132,6 @@ public class DraftgramSettingsActivity extends UniversalFragment {
     }
 
     private void fillRoot(ArrayList<UItem> items) {
-        items.add(UItem.asHeader("С Premium"));
-        items.add(UItem.asCustom(buildAccountCard(true)));
-        items.add(UItem.asHeader("Без Premium"));
-        items.add(UItem.asCustom(buildAccountCard(false)));
-
         if (headerView == null) {
             headerView = buildHeader(getContext());
         }

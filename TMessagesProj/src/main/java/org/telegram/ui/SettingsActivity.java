@@ -397,6 +397,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         avatarContainer.setPivotY(0);
         avatarGooey.addView(avatarContainer, LayoutHelper.createFrame(90, 90, Gravity.TOP | Gravity.LEFT));
         contentView.addView(avatarGooey, contentView.indexOfChild(listView) + 1, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        avatarGooey.setVisibility(View.GONE);
 
         avatarDrawable = new AvatarDrawable();
         avatarView = new BackupImageView(context);
@@ -441,6 +442,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         cameraButton.setPivotX(0);
         cameraButton.setPivotY(0);
         contentView.addView(cameraButton, contentView.indexOfChild(avatarGooey) + 1, LayoutHelper.createFrame(34, 34, Gravity.LEFT | Gravity.TOP));
+        cameraButton.setVisibility(View.GONE);
 
         titleView = new TextView(context);
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 22);
@@ -724,6 +726,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
         View accountCard = buildDraftgramAccountEntry();
         if (accountCard != null) {
+            items.add(UItem.asSpace(ActionBar.getCurrentActionBarHeight()));
             items.add(UItem.asCustom(accountCard));
             items.add(UItem.asShadow(null));
         } else {

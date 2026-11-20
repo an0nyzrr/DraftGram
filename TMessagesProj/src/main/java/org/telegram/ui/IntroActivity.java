@@ -21,6 +21,7 @@ import android.content.pm.ActivityInfo;
 import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Path;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -44,6 +45,8 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import org.telegram.ui.Components.DraftgramShapes;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -501,7 +504,24 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         View topSpacer = new View(context);
         root.addView(topSpacer, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 0, 1f, 0, 0, 0, 0));
 
-        ImageView logo = new ImageView(context);
+        ImageView logo = new ImageView(context) {
+            private final Path burst = new Path();
+
+            @Override
+            protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+                super.onSizeChanged(w, h, oldw, oldh);
+                burst.reset();
+                burst.set(DraftgramShapes.buildPath(6, w / 2f, h / 2f, Math.min(w, h) / 2f));
+            }
+
+            @Override
+            protected void onDraw(Canvas canvas) {
+                canvas.save();
+                canvas.clipPath(burst);
+                super.onDraw(canvas);
+                canvas.restore();
+            }
+        };
         logo.setImageResource(R.drawable.dg_logo_full);
         logo.setScaleType(ImageView.ScaleType.FIT_CENTER);
         root.addView(logo, LayoutHelper.createLinear(200, 200, Gravity.CENTER_HORIZONTAL, 0, 0, 0, 0));
@@ -533,24 +553,27 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
 
         TextView left = new TextView(context);
         left.setText("продолжить на русском");
-        left.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        left.setSingleLine(true);
+        left.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
         left.setTypeface(AndroidUtilities.bold());
         left.setTextColor(0xFF14293E);
         left.setGravity(Gravity.CENTER);
-        left.setPadding(dp(16), 0, dp(16), 0);
+        left.setPadding(dp(12), 0, dp(12), 0);
         GradientDrawable leftBg = new GradientDrawable();
-        leftBg.setCornerRadius(dp(24));
+        float r = dp(24);
+        leftBg.setCornerRadii(new float[]{r, r, 0, 0, 0, 0, r, r});
         leftBg.setColor(0xFFFFFFFF);
         left.setBackground(leftBg);
         left.setOnClickListener(v -> startMessagingButton.performClick());
-        capsule.addView(left, LayoutHelper.createLinear(0, 48, 1f, 0, 0, 0, 0));
+        capsule.addView(left, LayoutHelper.createLinear(0, 48, 1.3f, 0, 0, 0, 0));
 
         TextView right = new TextView(context);
         right.setText("continue in english");
-        right.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        right.setSingleLine(true);
+        right.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
         right.setTextColor(textColor);
         right.setGravity(Gravity.CENTER);
-        right.setPadding(dp(16), 0, dp(16), 0);
+        right.setPadding(dp(12), 0, dp(12), 0);
         right.setOnClickListener(v -> switchLanguageTextView.performClick());
         capsule.addView(right, LayoutHelper.createLinear(0, 48, 1f, 0, 0, 0, 0));
 
